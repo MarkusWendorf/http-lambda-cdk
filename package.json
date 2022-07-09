@@ -1,15 +1,15 @@
 {
   "name": "http-lambda",
   "version": "0.1.0",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
   "devDependencies": {
     "@types/node": "10.17.27",
     "@types/prettier": "2.6.0",
-    "aws-cdk-lib": "2.29.1",
+    "aws-cdk-lib": "^2.29.1",
     "constructs": "^10.0.0",
     "typescript": "~3.9.7"
   },
