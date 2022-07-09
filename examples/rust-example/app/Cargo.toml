@@ -1,0 +1,11 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["macros", "full"] }
+axum = "0.5.11"
+serde = { version = "1.0.138", features = ["derive"] }
+# Many crates require openssl, this dependency ensures that openssl is built for the correct target
+openssl = { version = "0.10", features = ["vendored"] }

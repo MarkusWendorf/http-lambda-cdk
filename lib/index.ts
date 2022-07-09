@@ -2,16 +2,19 @@ import { Construct } from "constructs";
 import { spawnSync } from "child_process";
 import { mkdtempSync } from "fs";
 import { tmpdir } from "os";
+import { Stack } from "aws-cdk-lib";
+import { FunctionUrlAuthType } from "aws-cdk-lib/aws-lambda";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as path from "path";
-import { Stack } from "aws-cdk-lib";
 
 export interface HttpLambdaProps
-  extends Omit<lambda.FunctionProps, "handler" | "layers" | "code"> {
-  architecture: lambda.Architecture;
+  extends Omit<
+    lambda.FunctionProps & lambda.FunctionUrlOptions,
+    "handler" | "layers" | "code"
+  > {
   /**
    * Script / executable to start the http server.
-   * 
+   *
    * @example
    * // Node.js script (with #!/usr/bin/env node)
    * "index.js"
@@ -28,7 +31,7 @@ export interface HttpLambdaProps
    * $2: the selected CPU architecture ("arm64" | "x86_64")
    *
    * Make sure the file permissions allow the current user to execute the script.
-   * 
+   *
    * @example
    * // Bash script
    * build.sh
@@ -42,16 +45,22 @@ export interface HttpLambdaProps
 
 export class HttpLambda extends Construct {
   public func: lambda.Function;
+  public functionUrl: lambda.FunctionUrl;
 
   constructor(scope: Construct, id: string, props: HttpLambdaProps) {
     super(scope, "HttpLambda" + id);
-
     const stack = Stack.of(this);
-    const { buildScript, architecture, handler, runtime, ...functionProps } =
-      this.validateProps(props);
+
+    const {
+      handler,
+      runtime,
+      buildScript,
+      architecture = lambda.Architecture.X86_64,
+      ...functionProps
+    } = this.validateProps(props);
 
     const archShorthand =
-      architecture == lambda.Architecture.ARM_64 ? "Arm64" : "X86";
+      architecture.name == lambda.Architecture.ARM_64.name ? "Arm64" : "X86";
 
     const adapterLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
@@ -61,7 +70,7 @@ export class HttpLambda extends Construct {
 
     const buildArtifactPath = this.executeBuildScript(
       buildScript,
-      architecture
+      architecture!
     );
 
     this.func = new lambda.Function(scope, id, {
@@ -77,6 +86,11 @@ export class HttpLambda extends Construct {
         // The adapter then calls our server at port 8080 via http
         AWS_LAMBDA_EXEC_WRAPPER: "/opt/bootstrap",
       },
+    });
+
+    this.functionUrl = this.func.addFunctionUrl({
+      authType: functionProps.authType || FunctionUrlAuthType.NONE,
+      cors: functionProps.cors || { allowedOrigins: ["*"] },
     });
   }
 
