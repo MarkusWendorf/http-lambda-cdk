@@ -26,8 +26,6 @@
   },
   "exclude": [
     "node_modules",
-    "cdk.out",
-    "examples",
-    "dist"
+    "cdk.out"
   ]
 }

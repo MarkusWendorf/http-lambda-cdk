@@ -16,7 +16,7 @@ export interface HttpLambdaProps
    * Script / executable to start the http server.
    *
    * @example
-   * // Node.js script (with #!/usr/bin/env node)
+   * // Node.js script (has to include "#!/usr/bin/env node" at the top of the file)
    * "index.js"
    * @example
    * // Rust binary
@@ -102,11 +102,15 @@ export class HttpLambda extends Construct {
       command = `sh ${command}`;
     }
 
-    spawnSync(command, {
+    const process = spawnSync(command, {
       shell: true,
       cwd: path.dirname(scriptPath),
       stdio: "inherit",
     });
+
+    if (process.status != 0) {
+      throw new Error("Build script failed");
+    }
 
     return tmpDir;
   }

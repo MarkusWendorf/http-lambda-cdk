@@ -1,0 +1,23 @@
+{
+  "name": "cdk",
+  "version": "0.1.0",
+  "bin": {
+    "cdk": "bin/cdk.js"
+  },
+  "scripts": {
+    "deploy": "cdk deploy",
+    "destroy": "cdk destroy"
+  },
+  "devDependencies": {
+    "@types/node": "10.17.27",
+    "@types/prettier": "2.6.0",
+    "aws-cdk": "^2.29.1",
+    "ts-node": "^10.8.1",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.29.1",
+    "constructs": "^10.0.0",
+    "source-map-support": "^0.5.21"
+  }
+}
