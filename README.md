@@ -1,4 +1,4 @@
-# HttpLambda CDK
+# Http Lambda CDK
 
 A CDK construct for writing AWS Lambda functions that run a regular http server.
 
