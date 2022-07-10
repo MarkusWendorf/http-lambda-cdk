@@ -3,6 +3,10 @@
   "version": "0.1.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MarkusWendorf/http-lambda-cdk.git"
+  },
   "scripts": {
     "build": "tsc"
   },

@@ -47,7 +47,7 @@ async fn root() -> impl IntoResponse {
 
 ## Deploy the web server
 
-The following CDK stack shows how you would deploy our rust server to AWS Lambda (you can find the full example [here](./examples/rust-example/cdk/lib/RustHttpStack.ts)):
+The following CDK stack shows how you would deploy our rust server to AWS Lambda (you can find the full example [here](https://github.com/MarkusWendorf/http-lambda-cdk/tree/master/examples/rust-example/cdk/lib/RustHttpStack.ts)):
 
 ```ts
 import { CfnOutput, Duration, Stack, StackProps } from "aws-cdk-lib";
@@ -91,7 +91,7 @@ While deploying, the construct will call the script with two parameters:
 
 Your build script has to copy your application code to the path provided by the first parameter.
 
-Take a look at this build script for our rust server ([build.sh](./examples/rust-example/app/build.sh)):
+Take a look at this build script for our rust server ([build.sh](https://github.com/MarkusWendorf/http-lambda-cdk/tree/master/examples/rust-example/app/build.sh)):
 
 ```sh
 # Exit on error
@@ -112,4 +112,4 @@ cargo lambda build --release $architecture
 cp -r ./target/lambda/app/ $1
 ```
 
-You can find a Node.js example [here](./examples/nodejs-example/app/build.sh).
+You can find a Node.js example [here](https://github.com/MarkusWendorf/http-lambda-cdk/tree/master/examples/nodejs-example/app/build.sh).
