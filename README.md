@@ -1,6 +1,6 @@
 # HttpLambda CDK
 
-This is a convenience construct for writing AWS Lambda Functions that run a regular http server.
+A CDK construct for writing AWS Lambda functions that run a regular http server.
 
 It consists of three parts:
 
@@ -86,7 +86,7 @@ export class RustHttpStack extends Stack {
 The construct expects you to define a build script that compiles your application.
 While deploying, the construct will call the script with two parameters:
 
-- $1: a path to a temporary directory, where the build script should copy it's output to
+- $1: a path to a temporary directory, where the build script should copy its output to
 - $2: the selected CPU architecture ("arm64" or "x86_64")
 
 Your build script has to copy your application code to the path provided by the first parameter.
@@ -113,3 +113,32 @@ cp -r ./target/lambda/app/ $1
 ```
 
 You can find a Node.js example [here](https://github.com/MarkusWendorf/http-lambda-cdk/tree/master/examples/nodejs-example/app/build.sh).
+
+## How does it work
+
+1. a new AWS lambda http event is triggered
+2. the lambda starts the [aws-lambda-web-adapter](https://github.com/awslabs/aws-lambda-web-adapter) extension automatically
+3. the lambda starts your http server defined by `handler`
+4. the `aws-lambda-web-adapter` does a healthcheck on your server and waits for it to return http status 200. By default the extension will call `GET /`, but you can also [change it](#healthcheck-configuration) to be another path.
+5. the `aws-lambda-web-adapter` receives the event and transforms the event to a http request and calls your http server on port 8080
+6. your http server returns a http response
+7. the `aws-lambda-web-adapter` transforms the response to the AWS lambda response format
+
+## Healthcheck configuration
+
+You can change the healthcheck path via the `READINESS_CHECK_PATH` environment variable:
+
+```ts
+new HttpLambda(this, "Lambda", {
+  [...]
+  environment: {
+    READINESS_CHECK_PATH: "/healthcheck"
+  }
+});
+```
+
+## Troubleshooting
+
+* ensure that `handler` is set to your executable / script file
+* node.js scripts have to include a node [shebang](https://github.com/MarkusWendorf/http-lambda-cdk/blob/f1e1047c16f695456c5ef7a57087d0d6967fbf20/examples/nodejs-example/app/index.ts#L1)
+* ensure that the `runtime` is node when running a node http server
