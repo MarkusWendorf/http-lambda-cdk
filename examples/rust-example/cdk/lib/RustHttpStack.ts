@@ -1,8 +1,8 @@
-import { CfnOutput, Duration, Stack, StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import { CfnOutput, Duration, Stack, StackProps } from "aws-cdk-lib";
+import { Construct } from "constructs";
 import * as path from "path";
 import * as lambda from "aws-cdk-lib/aws-lambda";
-import { HttpLambda } from '../../../../lib';
+import { HttpLambda } from "../../../../lib";
 
 export class RustHttpStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
