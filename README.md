@@ -8,6 +8,12 @@ It consists of three parts:
 2. the [aws-lambda-web-adapter](https://github.com/awslabs/aws-lambda-web-adapter) extension
 3. an API endpoint via [Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-urls.html)
 
+## Installation
+
+```sh
+npm install http-lambda-cdk
+```
+
 ## Example
 
 The only requirement for your web server is that it listens on port 8080.
