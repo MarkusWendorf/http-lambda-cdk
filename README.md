@@ -140,5 +140,5 @@ new HttpLambda(this, "Lambda", {
 ## Troubleshooting
 
 * ensure that `handler` is set to your executable / script file
-* node.js scripts have to include a node [shebang](https://github.com/MarkusWendorf/http-lambda-cdk/blob/f1e1047c16f695456c5ef7a57087d0d6967fbf20/examples/nodejs-example/app/index.ts#L1)
+* node.js scripts have to include a node [shebang](https://github.com/MarkusWendorf/http-lambda-cdk/blob/master/examples/nodejs-example/app/index.ts#L1)
 * ensure that the `runtime` is node when running a node http server
