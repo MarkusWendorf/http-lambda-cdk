@@ -7,6 +7,7 @@
     "type": "git",
     "url": "https://github.com/MarkusWendorf/http-lambda-cdk.git"
   },
+  "license": "MIT",
   "scripts": {
     "build": "tsc"
   },
