@@ -20,5 +20,8 @@
   "peerDependencies": {
     "aws-cdk-lib": "^2.29.1",
     "constructs": "^10.0.0"
+  },
+  "dependencies": {
+    "http-lambda-cdk": "^0.1.4"
   }
 }
