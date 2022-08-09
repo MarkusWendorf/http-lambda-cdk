@@ -41,6 +41,14 @@ export interface HttpLambdaProps
    * build.js
    */
   buildScript: string;
+  /**
+   * The version used for the AWS lambda adapter layer: 
+   * @link https://github.com/awslabs/aws-lambda-web-adapter
+   * 
+   * @default
+   * 3
+   */
+  lambdaAdapterLayerVersion?: string;
 }
 
 export class HttpLambda extends Construct {
@@ -56,6 +64,7 @@ export class HttpLambda extends Construct {
       runtime,
       buildScript,
       architecture = lambda.Architecture.X86_64,
+      lambdaAdapterLayerVersion = "3",
       ...functionProps
     } = this.validateProps(props);
 
@@ -65,7 +74,7 @@ export class HttpLambda extends Construct {
     const adapterLayer = lambda.LayerVersion.fromLayerVersionArn(
       this,
       "HttpAdapterLayer",
-      `arn:aws:lambda:${stack.region}:753240598075:layer:LambdaAdapterLayer${archShorthand}:2`
+      `arn:aws:lambda:${stack.region}:753240598075:layer:LambdaAdapterLayer${archShorthand}:${lambdaAdapterLayerVersion}`
     );
 
     const buildArtifactPath = this.executeBuildScript(
